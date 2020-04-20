@@ -1,0 +1,4 @@
+use musicstore
+
+db.createCollection('Albums')
+db.Albums.insertOne({"id": "191","title": "Title N 2","artist": "Artist N 2","year": 2017})

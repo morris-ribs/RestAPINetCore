@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mauricior\\Documents\\work\\musicstore\\musicstore.csproj": {}
+    "C:\\Users\\mauricior\\Documents\\work\\RestAPINetCore\\musicstore\\Musicstore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mauricior\\Documents\\work\\musicstore\\musicstore.csproj": {
+    "C:\\Users\\mauricior\\Documents\\work\\RestAPINetCore\\musicstore\\Musicstore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mauricior\\Documents\\work\\musicstore\\musicstore.csproj",
-        "projectName": "musicstore",
-        "projectPath": "C:\\Users\\mauricior\\Documents\\work\\musicstore\\musicstore.csproj",
+        "projectUniqueName": "C:\\Users\\mauricior\\Documents\\work\\RestAPINetCore\\musicstore\\Musicstore.csproj",
+        "projectName": "Musicstore",
+        "projectPath": "C:\\Users\\mauricior\\Documents\\work\\RestAPINetCore\\musicstore\\Musicstore.csproj",
         "packagesPath": "C:\\Users\\mauricior\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mauricior\\Documents\\work\\musicstore\\obj\\",
+        "outputPath": "C:\\Users\\mauricior\\Documents\\work\\RestAPINetCore\\musicstore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -40,6 +40,16 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.10.3, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

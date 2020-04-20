@@ -6,61 +6,78 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace musicstore.Controllers
+using Musicstore.Models;
+using Musicstore.Services;
+
+namespace Musicstore.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class MusicstoreController : ControllerBase
     {
+        private readonly AlbumService _albumService;
         private static Random rng = new Random();
         private static ArrayList Albums = new ArrayList();
         private readonly ILogger<MusicstoreController> _logger;
 
-        public MusicstoreController(ILogger<MusicstoreController> logger)
+        public MusicstoreController(ILogger<MusicstoreController> logger, AlbumService albumService)
         {
             _logger = logger;
-            // if (Albums.Count == 0) {
-            //     Albums.Add(new Album {
-            //         ID = rng.Next(1, 2000).ToString(),
-            //         Title = "Title N 1",
-            //         Artist = "Artist N 1",
-            //         Year = rng.Next(1950, 2020)
-            //     });
-                
-            //     Albums.Add(new Album
-            //     {
-            //         ID = rng.Next(1, 2000).ToString(),
-            //         Title = "Title N 2",
-            //         Artist = "Artist N 2",
-            //         Year = rng.Next(1950, 2020)
-            //     });
-                
-            //     Albums.Add(new Album
-            //     {
-            //         ID = rng.Next(1, 2000).ToString(),
-            //         Title = "Title N 3",
-            //         Artist = "Artist N 3",
-            //         Year = rng.Next(1950, 2020)
-            //     }); 
-            // }
+            _albumService = albumService;
         }
 
         [HttpGet]
-        public IEnumerable<Album> Get()
+        public ActionResult<List<Album>> Get() =>
+            _albumService.Get();
+
+        [HttpGet("{id:length(24)}", Name = "GetAlbum")]
+        public ActionResult<Album> Get(string id)
         {
-            return Albums.Cast<Album>();
+            var album = _albumService.Get(id);
+
+            if (album == null)
+            {
+                return NotFound();
+            }
+
+            return album;
         }
 
-        // POST: api/TodoItems
         [HttpPost]
-        public async Task<ActionResult<Album>> PostAlbum(Album album)
+        public ActionResult<Album> Create(Album album)
         {
-            Albums.Add(album);
-            // _context.Albums.Add(album);
-            // await _context.SaveChangesAsync();
+            _albumService.Create(album);
+            return CreatedAtRoute("GetAlbum", new { id = album.Id.ToString() }, album);
+        }
 
-            //return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
-            return CreatedAtAction(nameof(Get), album);
+        [HttpPut("{id:length(24)}")]
+        public IActionResult Update(string id, Album albumIn)
+        {
+            var album = _albumService.Get(id);
+
+            if (album == null)
+            {
+                return NotFound();
+            }
+
+            _albumService.Update(id, albumIn);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id:length(24)}")]
+        public IActionResult Delete(string id)
+        {
+            var album = _albumService.Get(id);
+
+            if (album == null)
+            {
+                return NotFound();
+            }
+
+            _albumService.Remove(album.Id);
+
+            return NoContent();
         }
     }
 }
